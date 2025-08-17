@@ -7,6 +7,7 @@ from selenium.webdriver.firefox.options import Options
 from fio import Fio
 from company_title import CompanyTitle
 from phone import Phone
+from letters import Letters
 import unittest
 
 class UntitledTestCase(unittest.TestCase):
@@ -25,7 +26,7 @@ class UntitledTestCase(unittest.TestCase):
         self.add_fio_and_nickname(wd,Fio(firstname="John", middlename="Snow", lastname="Aegon", nickname="Targaryen"))
         self.add_title_company_address(wd,CompanyTitle(title="north", company="night watch", address="black castle"))
         self.add_phone(wd, Phone(home="111", mobile="222", work="333"))
-        self.add_letters(wd)
+        self.add_letters(wd, Letters(fax="dark dozor", email="targaryen@gmail.com"))
 
         Select(wd.find_element_by_name("bday")).select_by_visible_text("4")
         wd.find_element_by_xpath("//option[@value='4']").click()
@@ -49,13 +50,13 @@ class UntitledTestCase(unittest.TestCase):
     def return_to_home(self, wd):
         wd.find_element_by_link_text("home").click()
 
-    def add_letters(self, wd):
+    def add_letters(self, wd, letters):
         wd.find_element_by_name("fax").click()
         wd.find_element_by_name("fax").clear()
-        wd.find_element_by_name("fax").send_keys("dark dozor")
+        wd.find_element_by_name("fax").send_keys(letters.fax)
         wd.find_element_by_name("email").click()
         wd.find_element_by_name("email").clear()
-        wd.find_element_by_name("email").send_keys("targaryen@gmail.com")
+        wd.find_element_by_name("email").send_keys(letters.email)
 
     def add_phone(self, wd, phone):
         wd.find_element_by_name("home").click()
