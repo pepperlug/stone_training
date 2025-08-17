@@ -32,21 +32,25 @@ class UntitledTestCase(unittest.TestCase):
 
         Select(wd.find_element_by_name("bday")).select_by_visible_text("4")
         wd.find_element_by_xpath("//option[@value='4']").click()
-
         Select(wd.find_element_by_name("bmonth")).select_by_visible_text("May")
         wd.find_element_by_xpath("//option[@value='May']").click()
-
         wd.find_element_by_name("byear").click()
         wd.find_element_by_name("byear").clear()
         wd.find_element_by_name("byear").send_keys("1276")
-
 
         wd.find_element_by_name("new_group").click()
         Select(wd.find_element_by_name("new_group")).select_by_visible_text("snow")
         wd.find_element_by_xpath("//div[@id='content']/form/select[5]/option[7]").click()
         wd.find_element_by_xpath("//div[@id='content']/form/input[20]").click()
-        wd.find_element_by_link_text("home").click()
+
+        self.return_to_home(wd)
+        self.logout(wd)
+
+    def logout(self, wd):
         wd.find_element_by_link_text("Logout").click()
+
+    def return_to_home(self, wd):
+        wd.find_element_by_link_text("home").click()
 
     def add_letters(self, wd):
         wd.find_element_by_name("fax").click()
@@ -78,19 +82,19 @@ class UntitledTestCase(unittest.TestCase):
         wd.find_element_by_name("address").clear()
         wd.find_element_by_name("address").send_keys("black castle")
 
-    def add_fio_and_nickname(self, wd):
+    def add_fio_and_nickname(self, wd, firstname="Jon", middlename="Snow", lastname="Aegon", nickname="Targarien"):
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
-        wd.find_element_by_name("firstname").send_keys("Jon")
+        wd.find_element_by_name("firstname").send_keys(firstname)
         wd.find_element_by_name("middlename").click()
         wd.find_element_by_name("middlename").clear()
-        wd.find_element_by_name("middlename").send_keys("Snow")
+        wd.find_element_by_name("middlename").send_keys(middlename)
         wd.find_element_by_name("lastname").click()
         wd.find_element_by_name("lastname").clear()
-        wd.find_element_by_name("lastname").send_keys("Aegon")
+        wd.find_element_by_name("lastname").send_keys(lastname)
         wd.find_element_by_name("nickname").click()
         wd.find_element_by_name("nickname").clear()
-        wd.find_element_by_name("nickname").send_keys("Targarien")
+        wd.find_element_by_name("nickname").send_keys(nickname)
 
     def form_new_contact(self, wd):
         wd.find_element_by_link_text("add new").click()
