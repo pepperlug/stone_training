@@ -1,33 +1,30 @@
 # -*- coding: utf-8 -*-
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
-import unittest, time, re
+from selenium.webdriver.firefox.options import Options
+from fio import Fio
+from company_title import CompanyTitle
+from phone import Phone
+import unittest
 
 class UntitledTestCase(unittest.TestCase):
     def setUp(self):
-        self.wd = webdriver.Firefox()
+        options = Options()
+        options.binary_location = r'C:\Program Files\Mozilla Firefox\firefox.exe'
+        self.wd = webdriver.Firefox(executable_path=r'C:\Windows\SysWOW64\geckodriver.exe', options=options)
         self.wd.implicitly_wait(30)
     
     def test_untitled_test_case(self):
         wd = self.wd
         self.home_page(wd)
-
         self.login(wd)
-
         self.submit_login(wd)
-
         self.form_new_contact(wd)
-
-        self.add_fio_and_nickname(wd)
-
-        self.add_tittle_company_address(wd)
-
-        self.add_phone(wd)
-
+        self.add_fio_and_nickname(wd,Fio(firstname="John", middlename="Snow", lastname="Aegon", nickname="Targaryen"))
+        self.add_title_company_address(wd,CompanyTitle(title="north", company="night watch", address="black castle"))
+        self.add_phone(wd, Phone(home="111", mobile="222", work="333"))
         self.add_letters(wd)
 
         Select(wd.find_element_by_name("bday")).select_by_visible_text("4")
@@ -60,41 +57,41 @@ class UntitledTestCase(unittest.TestCase):
         wd.find_element_by_name("email").clear()
         wd.find_element_by_name("email").send_keys("targaryen@gmail.com")
 
-    def add_phone(self, wd):
+    def add_phone(self, wd, phone):
         wd.find_element_by_name("home").click()
         wd.find_element_by_name("home").clear()
-        wd.find_element_by_name("home").send_keys("111")
+        wd.find_element_by_name("home").send_keys(phone.home)
         wd.find_element_by_name("mobile").click()
         wd.find_element_by_name("mobile").clear()
-        wd.find_element_by_name("mobile").send_keys("222")
+        wd.find_element_by_name("mobile").send_keys(phone.mobile)
         wd.find_element_by_name("work").click()
         wd.find_element_by_name("work").clear()
-        wd.find_element_by_name("work").send_keys("333")
+        wd.find_element_by_name("work").send_keys(phone.work)
 
-    def add_tittle_company_address(self, wd):
+    def add_title_company_address(self, wd, company_title):
         wd.find_element_by_name("title").click()
         wd.find_element_by_name("title").clear()
-        wd.find_element_by_name("title").send_keys("seven")
+        wd.find_element_by_name("title").send_keys(company_title.title)
         wd.find_element_by_name("company").click()
         wd.find_element_by_name("company").clear()
-        wd.find_element_by_name("company").send_keys("winterfall")
+        wd.find_element_by_name("company").send_keys(company_title.company)
         wd.find_element_by_name("address").click()
         wd.find_element_by_name("address").clear()
-        wd.find_element_by_name("address").send_keys("black castle")
+        wd.find_element_by_name("address").send_keys(company_title.address)
 
-    def add_fio_and_nickname(self, wd, firstname="Jon", middlename="Snow", lastname="Aegon", nickname="Targarien"):
+    def add_fio_and_nickname(self, wd, fio):
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
-        wd.find_element_by_name("firstname").send_keys(firstname)
+        wd.find_element_by_name("firstname").send_keys(fio.firstname)
         wd.find_element_by_name("middlename").click()
         wd.find_element_by_name("middlename").clear()
-        wd.find_element_by_name("middlename").send_keys(middlename)
+        wd.find_element_by_name("middlename").send_keys(fio.middlename)
         wd.find_element_by_name("lastname").click()
         wd.find_element_by_name("lastname").clear()
-        wd.find_element_by_name("lastname").send_keys(lastname)
+        wd.find_element_by_name("lastname").send_keys(fio.lastname)
         wd.find_element_by_name("nickname").click()
         wd.find_element_by_name("nickname").clear()
-        wd.find_element_by_name("nickname").send_keys(nickname)
+        wd.find_element_by_name("nickname").send_keys(fio.nickname)
 
     def form_new_contact(self, wd):
         wd.find_element_by_link_text("add new").click()
