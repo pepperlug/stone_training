@@ -55,53 +55,53 @@ class UntitledTestCase(unittest.TestCase):
     def return_to_home(self, wd):
         wd.find_element_by_link_text("home").click()
 
-    def add_letters(self, wd, letters):
+    def add_letters(self, wd, attribute_contact):
         #вводим доп.способы связи: факс и электронную почту
         wd.find_element_by_name("fax").click()
         wd.find_element_by_name("fax").clear()
-        wd.find_element_by_name("fax").send_keys(letters.fax)
+        wd.find_element_by_name("fax").send_keys(attribute_contact.fax)
         wd.find_element_by_name("email").click()
         wd.find_element_by_name("email").clear()
-        wd.find_element_by_name("email").send_keys(letters.email)
+        wd.find_element_by_name("email").send_keys(attribute_contact.email)
 
-    def add_phone(self, wd, phone):
+    def add_phone(self, wd, attribute_contact):
         #вводим домашний, рабочий, мобильный телефоны нового контакта
         wd.find_element_by_name("home").click()
         wd.find_element_by_name("home").clear()
-        wd.find_element_by_name("home").send_keys(phone.home)
+        wd.find_element_by_name("home").send_keys(attribute_contact.home)
         wd.find_element_by_name("mobile").click()
         wd.find_element_by_name("mobile").clear()
-        wd.find_element_by_name("mobile").send_keys(phone.mobile)
+        wd.find_element_by_name("mobile").send_keys(attribute_contact.mobile)
         wd.find_element_by_name("work").click()
         wd.find_element_by_name("work").clear()
-        wd.find_element_by_name("work").send_keys(phone.work)
+        wd.find_element_by_name("work").send_keys(attribute_contact.work)
 
-    def add_title_company_address(self, wd, company_title):
+    def add_title_company_address(self, wd, attribute_contact):
         #вводим заголовок, компанию, адрес нового контакта
         wd.find_element_by_name("title").click()
         wd.find_element_by_name("title").clear()
-        wd.find_element_by_name("title").send_keys(company_title.title)
+        wd.find_element_by_name("title").send_keys(attribute_contact.title)
         wd.find_element_by_name("company").click()
         wd.find_element_by_name("company").clear()
-        wd.find_element_by_name("company").send_keys(company_title.company)
+        wd.find_element_by_name("company").send_keys(attribute_contact.company)
         wd.find_element_by_name("address").click()
         wd.find_element_by_name("address").clear()
-        wd.find_element_by_name("address").send_keys(company_title.address)
+        wd.find_element_by_name("address").send_keys(attribute_contact.address)
 
-    def add_fio_and_nickname(self, wd, fio):
+    def add_fio_and_nickname(self, wd, attribute_contact):
         #вводим фио и никнейм нового контакта
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
-        wd.find_element_by_name("firstname").send_keys(fio.firstname)
+        wd.find_element_by_name("firstname").send_keys(attribute_contact.firstname)
         wd.find_element_by_name("middlename").click()
         wd.find_element_by_name("middlename").clear()
-        wd.find_element_by_name("middlename").send_keys(fio.middlename)
+        wd.find_element_by_name("middlename").send_keys(attribute_contact.middlename)
         wd.find_element_by_name("lastname").click()
         wd.find_element_by_name("lastname").clear()
-        wd.find_element_by_name("lastname").send_keys(fio.lastname)
+        wd.find_element_by_name("lastname").send_keys(attribute_contact.lastname)
         wd.find_element_by_name("nickname").click()
         wd.find_element_by_name("nickname").clear()
-        wd.find_element_by_name("nickname").send_keys(fio.nickname)
+        wd.find_element_by_name("nickname").send_keys(attribute_contact.nickname)
 
     def form_new_contact(self, wd):
         wd.find_element_by_link_text("add new").click()
