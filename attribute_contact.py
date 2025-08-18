@@ -1,3 +1,4 @@
+#здесь вспомогательные классы для атрибутов нового контакта
 class Fio:
     def __init__(self, firstname, middlename, lastname, nickname):
         self.firstname = firstname
