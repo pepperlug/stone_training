@@ -4,10 +4,7 @@ from selenium.webdriver.support.ui import Select
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
 from selenium.webdriver.firefox.options import Options
-from fio import Fio
-from company_title import CompanyTitle
-from phone import Phone
-from letters import Letters
+from attribute_contact import CompanyTitle, Phone, Letters, Fio, DateOfBirth
 import unittest
 
 class UntitledTestCase(unittest.TestCase):
@@ -28,13 +25,7 @@ class UntitledTestCase(unittest.TestCase):
         self.add_phone(wd, Phone(home="111", mobile="222", work="333"))
         self.add_letters(wd, Letters(fax="dark dozor", email="targaryen@gmail.com"))
 
-        Select(wd.find_element_by_name("bday")).select_by_visible_text("4")
-        wd.find_element_by_xpath("//option[@value='4']").click()
-        Select(wd.find_element_by_name("bmonth")).select_by_visible_text("May")
-        wd.find_element_by_xpath("//option[@value='May']").click()
-        wd.find_element_by_name("byear").click()
-        wd.find_element_by_name("byear").clear()
-        wd.find_element_by_name("byear").send_keys("1276")
+        self.date_of_birth(wd, DateOfBirth(bday="4",bmonth="May",byear="283"))
 
         wd.find_element_by_name("new_group").click()
         Select(wd.find_element_by_name("new_group")).select_by_visible_text("snow")
@@ -43,6 +34,15 @@ class UntitledTestCase(unittest.TestCase):
 
         self.return_to_home(wd)
         self.logout(wd)
+
+    def date_of_birth(self, wd, attribute_contact):
+        Select(wd.find_element_by_name("bday")).select_by_visible_text(attribute_contact.bday)
+        wd.find_element_by_xpath("//option[@value='4']").click()
+        Select(wd.find_element_by_name("bmonth")).select_by_visible_text(attribute_contact.bmonth)
+        wd.find_element_by_xpath("//option[@value='May']").click()
+        wd.find_element_by_name("byear").click()
+        wd.find_element_by_name("byear").clear()
+        wd.find_element_by_name("byear").send_keys(attribute_contact.byear)
 
     def logout(self, wd):
         wd.find_element_by_link_text("Logout").click()
