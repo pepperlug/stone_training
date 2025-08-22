@@ -6,8 +6,7 @@ from selenium.webdriver.support.ui import Select
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
 from selenium.webdriver.firefox.options import Options
-from attribute_contact import CompanyTitle, Phone, Letters, Fio, DateOfBirth
-from group import ChangeGroup
+from features_contact import FeaturesContact
 import unittest
 
 class UntitledTestCase(unittest.TestCase):
@@ -23,31 +22,9 @@ class UntitledTestCase(unittest.TestCase):
         self.login(wd)
         self.submit_login(wd)
         self.form_new_contact(wd)
-        self.add_fio_and_nickname(wd,Fio(firstname="John", middlename="Snow", lastname="Aegon", nickname="Targaryen"))
-        self.add_title_company_address(wd,CompanyTitle(title="north", company="night watch", address="black castle"))
-        self.add_phone(wd, Phone(home="111", mobile="222", work="333"))
-        self.add_letters(wd, Letters(fax="dark dozor", email="targaryen@gmail.com"))
-        self.date_of_birth(wd, DateOfBirth(bday="4",bmonth="May",byear="283"))
-        self.change_group(wd, ChangeGroup(new_group = "snow"))
+        self.add_new_contact(wd,FeaturesContact(firstname="John", middlename="Snow", lastname="Aegon", nickname="Targaryen",title="north", company="night watch", address="black castle",home="111", mobile="222", work="333",fax="dark dozor", email="targaryen@gmail.com", bday="4",bmonth="May",byear="283",new_group = "snow"))
         self.return_to_home(wd)
         self.logout(wd)
-
-    def change_group(self, wd, group):
-        #Выбираем группу для нового контакта
-        wd.find_element_by_name("new_group").click()
-        Select(wd.find_element_by_name("new_group")).select_by_visible_text(group.new_group)
-        wd.find_element_by_xpath("//div[@id='content']/form/select[5]/option[7]").click()
-        wd.find_element_by_xpath("//div[@id='content']/form/input[20]").click()
-
-    def date_of_birth(self, wd, attribute_contact):
-        #Выбираем дату рождения для нового контакта
-        Select(wd.find_element_by_name("bday")).select_by_visible_text(attribute_contact.bday)
-        wd.find_element_by_xpath("//option[@value='4']").click()
-        Select(wd.find_element_by_name("bmonth")).select_by_visible_text(attribute_contact.bmonth)
-        wd.find_element_by_xpath("//option[@value='May']").click()
-        wd.find_element_by_name("byear").click()
-        wd.find_element_by_name("byear").clear()
-        wd.find_element_by_name("byear").send_keys(attribute_contact.byear)
 
     def logout(self, wd):
         wd.find_element_by_link_text("Logout").click()
@@ -55,53 +32,62 @@ class UntitledTestCase(unittest.TestCase):
     def return_to_home(self, wd):
         wd.find_element_by_link_text("home").click()
 
-    def add_letters(self, wd, attribute_contact):
-        #вводим доп.способы связи: факс и электронную почту
-        wd.find_element_by_name("fax").click()
-        wd.find_element_by_name("fax").clear()
-        wd.find_element_by_name("fax").send_keys(attribute_contact.fax)
-        wd.find_element_by_name("email").click()
-        wd.find_element_by_name("email").clear()
-        wd.find_element_by_name("email").send_keys(attribute_contact.email)
-
-    def add_phone(self, wd, attribute_contact):
-        #вводим домашний, рабочий, мобильный телефоны нового контакта
-        wd.find_element_by_name("home").click()
-        wd.find_element_by_name("home").clear()
-        wd.find_element_by_name("home").send_keys(attribute_contact.home)
-        wd.find_element_by_name("mobile").click()
-        wd.find_element_by_name("mobile").clear()
-        wd.find_element_by_name("mobile").send_keys(attribute_contact.mobile)
-        wd.find_element_by_name("work").click()
-        wd.find_element_by_name("work").clear()
-        wd.find_element_by_name("work").send_keys(attribute_contact.work)
-
-    def add_title_company_address(self, wd, attribute_contact):
-        #вводим заголовок, компанию, адрес нового контакта
-        wd.find_element_by_name("title").click()
-        wd.find_element_by_name("title").clear()
-        wd.find_element_by_name("title").send_keys(attribute_contact.title)
-        wd.find_element_by_name("company").click()
-        wd.find_element_by_name("company").clear()
-        wd.find_element_by_name("company").send_keys(attribute_contact.company)
-        wd.find_element_by_name("address").click()
-        wd.find_element_by_name("address").clear()
-        wd.find_element_by_name("address").send_keys(attribute_contact.address)
-
-    def add_fio_and_nickname(self, wd, attribute_contact):
+    def add_new_contact(self, wd, features_contact):
         #вводим фио и никнейм нового контакта
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
-        wd.find_element_by_name("firstname").send_keys(attribute_contact.firstname)
+        wd.find_element_by_name("firstname").send_keys(features_contact.firstname)
         wd.find_element_by_name("middlename").click()
         wd.find_element_by_name("middlename").clear()
-        wd.find_element_by_name("middlename").send_keys(attribute_contact.middlename)
+        wd.find_element_by_name("middlename").send_keys(features_contact.middlename)
         wd.find_element_by_name("lastname").click()
         wd.find_element_by_name("lastname").clear()
-        wd.find_element_by_name("lastname").send_keys(attribute_contact.lastname)
+        wd.find_element_by_name("lastname").send_keys(features_contact.lastname)
         wd.find_element_by_name("nickname").click()
         wd.find_element_by_name("nickname").clear()
-        wd.find_element_by_name("nickname").send_keys(attribute_contact.nickname)
+        wd.find_element_by_name("nickname").send_keys(features_contact.nickname)
+        # вводим заголовок, компанию, адрес нового контакта
+        wd.find_element_by_name("title").click()
+        wd.find_element_by_name("title").clear()
+        wd.find_element_by_name("title").send_keys(features_contact.title)
+        wd.find_element_by_name("company").click()
+        wd.find_element_by_name("company").clear()
+        wd.find_element_by_name("company").send_keys(features_contact.company)
+        wd.find_element_by_name("address").click()
+        wd.find_element_by_name("address").clear()
+        wd.find_element_by_name("address").send_keys(features_contact.address)
+
+        # вводим домашний, рабочий, мобильный телефоны нового контакта
+        wd.find_element_by_name("home").click()
+        wd.find_element_by_name("home").clear()
+        wd.find_element_by_name("home").send_keys(features_contact.home)
+        wd.find_element_by_name("mobile").click()
+        wd.find_element_by_name("mobile").clear()
+        wd.find_element_by_name("mobile").send_keys(features_contact.mobile)
+        wd.find_element_by_name("work").click()
+        wd.find_element_by_name("work").clear()
+        wd.find_element_by_name("work").send_keys(features_contact.work)
+        # вводим доп.способы связи: факс и электронную почту
+        wd.find_element_by_name("fax").click()
+        wd.find_element_by_name("fax").clear()
+        wd.find_element_by_name("fax").send_keys(features_contact.fax)
+        wd.find_element_by_name("email").click()
+        wd.find_element_by_name("email").clear()
+        wd.find_element_by_name("email").send_keys(features_contact.email)
+        # Выбираем дату рождения для нового контакта
+        Select(wd.find_element_by_name("bday")).select_by_visible_text(features_contact.bday)
+        wd.find_element_by_xpath("//option[@value='4']").click()
+        Select(wd.find_element_by_name("bmonth")).select_by_visible_text(features_contact.bmonth)
+        wd.find_element_by_xpath("//option[@value='May']").click()
+        wd.find_element_by_name("byear").click()
+        wd.find_element_by_name("byear").clear()
+        wd.find_element_by_name("byear").send_keys(features_contact.byear)
+        # Выбираем группу для нового контакта
+        wd.find_element_by_name("new_group").click()
+        Select(wd.find_element_by_name("new_group")).select_by_visible_text(features_contact.new_group)
+        wd.find_element_by_xpath("//div[@id='content']/form/select[5]/option[7]").click()
+        wd.find_element_by_xpath("//div[@id='content']/form/input[20]").click()
+
 
     def form_new_contact(self, wd):
         wd.find_element_by_link_text("add new").click()
