@@ -7,9 +7,10 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
 from selenium.webdriver.firefox.options import Options
 from features_contact import FeaturesContact
+
 import unittest
 
-class UntitledTestCase(unittest.TestCase):
+class ContactTestCase(unittest.TestCase):
     def setUp(self):
         options = Options()
         options.binary_location = r'C:\Program Files\Mozilla Firefox\firefox.exe'
@@ -22,7 +23,7 @@ class UntitledTestCase(unittest.TestCase):
         self.login(wd)
         self.submit_login(wd)
         self.form_new_contact(wd)
-        self.add_new_contact(wd,FeaturesContact(firstname="John", middlename="Snow", lastname="Aegon", nickname="Targaryen",title="north", company="night watch", address="black castle",home="111", mobile="222", work="333",fax="dark dozor", email="targaryen@gmail.com", bday="4",bmonth="May",byear="283",new_group = "snow"))
+        self.add_new_contact(wd,FeaturesContact(firstname="John", middlename="Snow", lastname="Aegon", nickname="Targaryen",title="north", company="night watch", address="black castle",home="111", mobile="222", work="333",fax="dark dozor", email="targaryen@gmail.com", bday="4",bmonth="May",byear="283",new_group = "jojo"))
         self.return_to_home(wd)
         self.logout(wd)
 
@@ -76,18 +77,16 @@ class UntitledTestCase(unittest.TestCase):
         wd.find_element_by_name("email").send_keys(features_contact.email)
         # Выбираем дату рождения для нового контакта
         Select(wd.find_element_by_name("bday")).select_by_visible_text(features_contact.bday)
-        wd.find_element_by_xpath("//option[@value='4']").click()
         Select(wd.find_element_by_name("bmonth")).select_by_visible_text(features_contact.bmonth)
-        wd.find_element_by_xpath("//option[@value='May']").click()
         wd.find_element_by_name("byear").click()
         wd.find_element_by_name("byear").clear()
         wd.find_element_by_name("byear").send_keys(features_contact.byear)
+
         # Выбираем группу для нового контакта
         wd.find_element_by_name("new_group").click()
         Select(wd.find_element_by_name("new_group")).select_by_visible_text(features_contact.new_group)
-        wd.find_element_by_xpath("//div[@id='content']/form/select[5]/option[7]").click()
+        wd.find_element_by_xpath("//select[@name='new_group']/option[text()='" + features_contact.new_group + "']").click()
         wd.find_element_by_xpath("//div[@id='content']/form/input[20]").click()
-
 
     def form_new_contact(self, wd):
         wd.find_element_by_link_text("add new").click()
