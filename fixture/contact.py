@@ -1,5 +1,6 @@
 from selenium.webdriver.support.ui import Select
 
+
 class ContactHelper:
     def __init__(self,app):
         self.app = app
@@ -56,3 +57,7 @@ class ContactHelper:
     def form_new_contact(self):
         wd = self.app.wd
         wd.find_element_by_link_text("add new").click()
+    def del_first_contact(self):
+        wd = self.app.wd
+        wd.find_element_by_name("selected[]").click()
+        wd.find_element_by_xpath("//input[@value='Delete']").click()
