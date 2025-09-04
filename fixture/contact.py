@@ -4,29 +4,42 @@ class ContactHelper:
     def __init__(self,app):
         self.app = app
 
-    def add_new_contact(self, features_contact):
-        #вводим фио и никнейм нового контакта
+    #переход на форму создания нового контакта
+    def form_contact(self):
         wd = self.app.wd
-        self.features_contact()
-
-    def form_new_contact(self):
-        wd = self.app.wd
-        self.features_contact()
         wd.find_element_by_link_text("add new").click()
 
+    # создание нового контакта
+    def add_new_contact(self,features_contact):
+        wd = self.app.wd
+        self.form_contact()
+        self.input_features_contact(features_contact)
+        wd.find_element_by_xpath("//div[@id='content']/form/input[20]").click()
+
+    #обновление данных контакта
     def update_contact(self):
         wd = self.app.wd
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
 
+    #удаление первого контакта в списке
     def del_first_contact(self):
         wd = self.app.wd
+        #переход на форму существующих контактов
         wd.find_element_by_link_text("home").click()
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_xpath("//input[@value='Delete']").click()
-    def features_contact(self, features_contact,new_group=None):
+
+    #редактирование первого контакта в списке
+    def edit_first_contact(self,features_contact):
         wd = self.app.wd
+        #переход на форму существующих контактов
         wd.find_element_by_link_text("home").click()
         wd.find_element_by_xpath("//img[@alt='Edit']").click()
+        self.input_features_contact(features_contact)
+        self.update_contact()
+    #работа с атрибутами контакта
+    def input_features_contact(self, features_contact,new_group=None):
+        wd = self.app.wd
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
         wd.find_element_by_name("firstname").send_keys(features_contact.firstname)
@@ -49,7 +62,6 @@ class ContactHelper:
         wd.find_element_by_name("address").click()
         wd.find_element_by_name("address").clear()
         wd.find_element_by_name("address").send_keys(features_contact.address)
-
         # вводим домашний, рабочий, мобильный телефоны нового контакта
         wd.find_element_by_name("home").click()
         wd.find_element_by_name("home").clear()
@@ -74,8 +86,3 @@ class ContactHelper:
             wd.find_element_by_xpath(
                 "//select[@name='new_group']/option[text()='" + features_contact.new_group + "']").click()
             wd.find_element_by_xpath("//div[@id='content']/form/input[20]").click()
-
-    def edit_first_contact(self,features_contact,new_group=None):
-        wd = self.app.wd
-        self.features_contact()
-        self.update_contact()
