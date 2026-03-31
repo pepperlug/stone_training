@@ -1,6 +1,6 @@
 #здесь вспомогательные классы для атрибутов нового контакта
 class FeaturesContact:
-    def __init__(self, firstname, middlename, lastname, nickname, fax, email,home,mobile,work,title, company, address,bday, bmonth, byear,new_group):
+    def __init__(self, firstname=None, middlename=None, lastname=None, nickname=None, fax=None, email=None,home=None,mobile=None,work=None,title=None, company=None, address=None,bday=None, bmonth=None, byear=None,new_group=None):
         self.firstname = firstname
         self.middlename = middlename
         self.lastname = lastname
