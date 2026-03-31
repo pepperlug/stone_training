@@ -21,3 +21,26 @@ class SessionHelper:
     def open_home_page(self):
         wd = self.app.wd
         wd.get("http://localhost/addressbook/")
+
+    def ensure_logout(self):
+        wd = self.app.wd
+        if self.is_logged_in():
+            self.logout()
+
+    def is_logged_in(self):
+        wd = self.app.wd
+        return len(wd.find_elements_by_link_text("Logout")) > 0
+
+    def is_logged_in_as(self,username):
+        wd = self.app.wd
+        return wd.find_element_by_xpath("//div[@id='top']/form/b").text == "("+username+")"
+
+    #проверяем, залогинены ли мы и под верным ли пользователем
+    def ensure_login(self, user, password):
+        wd = self.app.wd
+        if self.is_logged_in():
+            if self.is_logged_in_as(user):
+                return
+            else:
+                self.logout()
+        self.login(user,password)
