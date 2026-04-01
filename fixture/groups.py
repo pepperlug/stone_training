@@ -72,4 +72,7 @@ class GroupHelper:
     def select_group(self, wd):
         wd.find_element_by_name("selected[]").click()
 
-
+    def count_group(self):
+        wd = self.app.wd
+        self.open_groups()
+        return len(wd.find_elements_by_name("selected[]"))
