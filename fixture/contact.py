@@ -7,7 +7,8 @@ class ContactHelper:
     #переход на форму создания нового контакта
     def form_contact(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("add new").click()
+        if not(wd.current_url.endswith("/edit.php") and len(wd.find_elements_by_name("photo")) > 0):
+            wd.find_element_by_link_text("add new").click()
 
     # создание нового контакта
     def add_new_contact(self,features_contact):
@@ -32,7 +33,9 @@ class ContactHelper:
     #редактирование первого контакта в списке
     def edit_first_contact(self,features_contact):
         wd = self.app.wd
-        #переход на форму существующих контактов
+        #переход в группы, чтобы проверить выполнение предусловий на нахождение на нужной странице
+        wd.find_element_by_link_text("groups").click()
+        # переход на форму существующих контактов
         self.home_page(wd)
         wd.find_element_by_xpath("//img[@alt='Edit']").click()
         self.input_features_contact(features_contact)
@@ -40,7 +43,8 @@ class ContactHelper:
 
     def home_page(self, wd):
         wd = self.app.wd
-        wd.find_element_by_link_text("home").click()
+        if not (wd.current_url.endswith("addressbook/") and len(wd.find_elements_by_name("add")) > 0):
+            wd.find_element_by_link_text("home").click()
 
     #работа с атрибутами контакта
     def input_features_contact(self, features_contact):

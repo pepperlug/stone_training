@@ -6,12 +6,17 @@ class GroupHelper:
     #переход в раздел групп
     def open_groups(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("groups").click()
+        #переход на страницу добавления контакта для проверки предусловий по нахождению на нужной странице
+        wd.find_element_by_link_text("add new").click()
+        if not (wd.current_url.endswith("/group.php") and len(wd.find_elements_by_name("new")) > 0):
+            wd.find_element_by_link_text("groups").click()
 
     #переход в форму создания новой группы
     def click_new_group(self):
         wd = self.app.wd
-        wd.find_element_by_name("new").click()
+
+        if not (wd.current_url.endswith("New+group") and len(wd.find_elements_by_name("submit")) > 0):
+            wd.find_element_by_name("new").click()
 
     #ввод данных создаваемой либо редактируемой группы
     def input_group(self,group):
@@ -36,7 +41,7 @@ class GroupHelper:
         self.submit_new_group()
         self.return_to_groups()
 
-    #подтверждение создания нвоой группы
+    #подтверждение создания нoвой группы
     def submit_new_group(self):
         wd = self.app.wd
         wd.find_element_by_name("submit").click()
@@ -49,7 +54,8 @@ class GroupHelper:
     #возврат к списку существующих групп
     def return_to_groups(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("group page").click()
+        if not (wd.current_url.endswith("/group.php") and len(wd.find_elements_by_name("new")) > 0):
+            wd.find_element_by_link_text("group page").click()
 
     #метод удаления первой группы в списке
     def del_first_group(self):
