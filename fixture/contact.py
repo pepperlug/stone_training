@@ -26,21 +26,26 @@ class ContactHelper:
 
     #удаление первого контакта в списке
     def del_first_contact(self):
+        self.del_contact_by_index(0)
+
+    #удаление случайного контакта в списке
+    def del_contact_by_index(self,index):
         wd = self.app.wd
         #переход на форму существующих контактов
         self.home_page(wd)
-        wd.find_element_by_name("selected[]").click()
+        wd.find_elements_by_name("selected[]")[index].click()
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         self.contacts_cache = None
 
+    def edit_first_contact(self, features_contact,index):
+        self.edit_contact_by_index(0,features_contact)
+
     #редактирование первого контакта в списке
-    def edit_first_contact(self,features_contact):
+    def edit_contact_by_index(self,features_contact,index):
         wd = self.app.wd
-        #переход в группы, чтобы проверить выполнение предусловий на нахождение на нужной странице
-        wd.find_element_by_link_text("groups").click()
         # переход на форму существующих контактов
         self.home_page(wd)
-        wd.find_element_by_xpath("//img[@alt='Edit']").click()
+        wd.find_elements_by_xpath("//img[@alt='Edit']")[index].click()
         self.input_features_contact(features_contact)
         self.update_contact()
         self.contacts_cache = None

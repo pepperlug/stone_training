@@ -57,28 +57,39 @@ class GroupHelper:
         if not (wd.current_url.endswith("/group.php") and len(wd.find_elements_by_name("new")) > 0):
             wd.find_element_by_link_text("group page").click()
 
-    #метод удаления первой группы в списке
+    # метод удаления первой группы в списке
     def del_first_group(self):
+        self.del_group_by_index(0)
+
+    #метод удаления случайной группы в списке
+    def del_group_by_index(self,index):
         wd = self.app.wd
         self.open_groups()
-        self.select_group(wd)
+        self.select_group_by_index(index)
         wd.find_element_by_name("delete").click()
         self.return_to_groups()
         self.group_cache = None
 
-    #редактирование данных первой в списке группы
     def edit_first_group(self, group):
+        self.edit_group_by_index(0, group)
+
+    #редактирование данных первой в списке группы
+    def edit_group_by_index(self, index, group):
         wd = self.app.wd
         self.open_groups()
-        self.select_group(wd)
+        self.select_group_by_index(index)
         wd.find_element_by_name("edit").click()
         self.input_group(group)
         self.update_group()
         self.return_to_groups()
         self.group_cache = None
 
-    def select_group(self, wd):
-        wd.find_element_by_name("selected[]").click()
+    def select_group(self):
+        self.select_group_by_index(0)
+
+    def select_group_by_index(self, index):
+        wd = self.app.wd
+        wd.find_elements_by_name("selected[]")[index].click()
 
     def count_group(self):
         wd = self.app.wd
