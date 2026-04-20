@@ -36,7 +36,7 @@ def merge_phones_like_on_home_page(features_contact):
                                         features_contact.work]))))
 
 def merge_email_like_on_home_page(features_contact):
-    # Склеиваем все емейлы в строку, как они отображаются на главной странице
+    # Склеиваем все е-мейлы в строку, как они отображаются на главной странице
     return "\n".join(filter(lambda x: x != "",
                                 filter(lambda x: x is not None,
                                        [features_contact.email,
