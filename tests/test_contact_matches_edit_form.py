@@ -26,10 +26,6 @@ def clear_phone(s):
     # Удаляем скобки, пробелы и дефисы из строки
     return re.sub("[() -]", "", s)
 
-def clear_email(s):
-    # Удаляем скобки, пробелы и дефисы из строки
-    return re.sub("[()-]", "", s)
-
 def merge_phones_like_on_home_page(features_contact):
     # Склеиваем все телефоны в строку, как они отображаются на главной странице
     return "\n".join(filter(lambda x: x != "",
@@ -42,8 +38,7 @@ def merge_phones_like_on_home_page(features_contact):
 def merge_email_like_on_home_page(features_contact):
     # Склеиваем все емейлы в строку, как они отображаются на главной странице
     return "\n".join(filter(lambda x: x != "",
-                            map(lambda x: clear_email(x),
                                 filter(lambda x: x is not None,
                                        [features_contact.email,
                                         features_contact.email2,
-                                        features_contact.email3]))))
+                                        features_contact.email3])))
