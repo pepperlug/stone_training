@@ -2,7 +2,7 @@
 from sys import maxsize
 
 class FeaturesContact:
-    def __init__(self, firstname=None, middlename=None, lastname=None, nickname=None, fax=None, email=None,home=None,mobile=None,work=None,title=None, company=None, address=None,bday=None, bmonth=None, byear=None,new_group=None,id=None):
+    def __init__(self, firstname=None, middlename=None, lastname=None, nickname=None, fax=None, email=None,home=None,mobile=None,work=None,title=None, company=None, address=None,bday=None, bmonth=None, byear=None,new_group=None,id=None, all_phones_from_page=None):
         self.firstname = firstname
         self.middlename = middlename
         self.lastname = lastname
@@ -20,6 +20,7 @@ class FeaturesContact:
         self.byear = byear
         self.new_group = new_group
         self.id = id
+        self.all_phones_from_page=all_phones_from_page
 
     def __repr__(self):
         return "%s:%s:%s" % (self.id, self.firstname, self.lastname)
