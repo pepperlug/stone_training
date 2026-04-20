@@ -15,7 +15,7 @@ testdata=[
     Group(name=name,
           header=header,
           footer=footer)
-    for name in ["",random_string("name",10)]
+    for name in ["",random_string("name",5)]
     for header in ["",random_string("heater",7)]
     for footer in ["",random_string("footer",9)]
 ]

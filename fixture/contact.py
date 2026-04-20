@@ -16,7 +16,7 @@ class ContactHelper:
         wd = self.app.wd
         self.form_contact()
         self.input_features_contact(features_contact)
-        wd.find_element_by_xpath("//div[@id='content']/form/input[20]").click()
+        wd.find_element_by_name("submit").click()
         self.home_page(wd)
         self.contacts_cache = None
 
@@ -89,7 +89,7 @@ class ContactHelper:
 
     def type(self, field_name, text):
         wd = self.app.wd
-        if field_name is not None:
+        if text is not None:
             wd.find_element_by_name(field_name).click()
             wd.find_element_by_name(field_name).clear()
             wd.find_element_by_name(field_name).send_keys(text)

@@ -1,3 +1,4 @@
+
 class SessionHelper:
 
     def __init__(self, app):
@@ -5,7 +6,7 @@ class SessionHelper:
 
     def login(self, user, password):
         wd = self.app.wd
-        self.open_home_page()
+        self.app.open_home_page()
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys(user)
@@ -18,9 +19,9 @@ class SessionHelper:
         wd = self.app.wd
         wd.find_element_by_link_text("Logout").click()
 
-    def open_home_page(self):
-        wd = self.app.wd
-        wd.get("http://localhost/addressbook/")
+    #def open_home_page(self):
+        #wd = self.app.wd
+        #wd.get("http://localhost/addressbook/")
 
     def ensure_logout(self):
         wd = self.app.wd
