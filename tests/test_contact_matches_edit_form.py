@@ -22,14 +22,18 @@ def test_phone_on_contact_view_page(app):
     assert contact_from_view_page.mobile == contact_from_edit_page.mobile
     assert contact_from_view_page.work == contact_from_edit_page.work
 
-def clear(s):
+def clear_phone(s):
     # Удаляем скобки, пробелы и дефисы из строки
     return re.sub("[() -]", "", s)
+
+def clear_email(s):
+    # Удаляем скобки, пробелы и дефисы из строки
+    return re.sub("[()-]", "", s)
 
 def merge_phones_like_on_home_page(features_contact):
     # Склеиваем все телефоны в строку, как они отображаются на главной странице
     return "\n".join(filter(lambda x: x != "",
-                            map(lambda x: clear(x),
+                            map(lambda x: clear_phone(x),
                                 filter(lambda x: x is not None,
                                        [features_contact.home,
                                         features_contact.mobile,
@@ -38,7 +42,7 @@ def merge_phones_like_on_home_page(features_contact):
 def merge_email_like_on_home_page(features_contact):
     # Склеиваем все емейлы в строку, как они отображаются на главной странице
     return "\n".join(filter(lambda x: x != "",
-                            map(lambda x: clear(x),
+                            map(lambda x: clear_email(x),
                                 filter(lambda x: x is not None,
                                        [features_contact.email,
                                         features_contact.email2,
