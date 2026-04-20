@@ -17,6 +17,7 @@ class ContactHelper:
         self.form_contact()
         self.input_features_contact(features_contact)
         wd.find_element_by_xpath("//div[@id='content']/form/input[20]").click()
+        self.home_page(wd)
         self.contacts_cache = None
 
     #обновление данных контакта
@@ -72,6 +73,8 @@ class ContactHelper:
         self.type("work", features_contact.work)
         self.type("fax", features_contact.fax)
         self.type("email", features_contact.email)
+        self.type("email2", features_contact.email2)
+        self.type("email3", features_contact.email3)
         self.choice_group_contact(features_contact)
 
     def choice_group_contact(self, features_contact):
