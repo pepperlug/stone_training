@@ -29,7 +29,7 @@ def random_string(prefix,maxlen):
 #случайные тестовые данные
 testdata=[
     FeaturesContact(firstname=random_string("firstname",4),
-                    middlename=random_string("lastname",3),
+                    middlename=random_string("middlename",3),
                     lastname=random_string("lastname",6),
                     nickname=random_string("nick",3),
                     title=random_string("title",5),

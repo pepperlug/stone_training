@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 from model.group import Group
 
-
-
-
+#теперь здесь параметризованный тест, данные для него получаем из файла data/groups.json
 def test_add_group(app,json_groups):
     group = json_groups
     old_groups = app.group.get_group_list()

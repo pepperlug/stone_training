@@ -43,6 +43,7 @@ def pytest_addoption(parser):
     parser.addoption("--browser",action="store",default="firefox")
     parser.addoption("--target", action="store", default="target.json")
 
+    # Вызывается при генерации тестов. Позволяет автоматически параметризовать тестовые функции
 def pytest_generate_tests(metafunc):
     for fixture in metafunc.fixturenames:
         if fixture.startswith("data_"):
@@ -55,10 +56,9 @@ def pytest_generate_tests(metafunc):
 def load_from_module(module):
     return importlib.import_module("data.%s" % module).testdata
 
-def load_from_json(file):
-    # Строим абсолютный путь к директории data
-    # Соединяем путь, папку data и имя файла с расширением
-    file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", f"{file}.json")
 
+# Открываем json-файл в кодировке utf-8 и декодируем его содержимое через jsonpickle.
+def load_from_json(file):
+    file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", f"{file}.json")
     with open(file_path, "r", encoding="utf-8") as f:
         return jsonpickle.decode(f.read())
