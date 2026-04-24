@@ -1,6 +1,6 @@
 import re
 
-def test_info_on_home_page(app):
+def test_info_on_home_page(app,db):
     # Получаем контакт с главной страницы
     contact_from_home_page = app.contact.get_contacts_list()[0]
     # Получаем данные этого же контакта со страницы редактирования

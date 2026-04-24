@@ -20,6 +20,24 @@ class ContactHelper:
         self.home_page(wd)
         self.contacts_cache = None
 
+    def add_contact_to_group(self,contact_id, group_name):
+        wd = self.app.wd
+        # Открываем главную страницу
+        self.home_page(wd)
+
+        # Выбираем контакт по id
+        wd.find_element_by_css_selector("input[value='%s']" % contact_id).click()
+
+        # Выбираем группу из списка
+        select = Select(wd.find_element_by_name("to_group"))
+        select.select_by_visible_text(group_name)
+
+        # Нажимаем добавить
+        wd.find_element_by_name("add").click()
+
+        # Снова открываем главную страницу
+        self.home_page(wd)
+
     #обновление данных контакта
     def update_contact(self):
         wd = self.app.wd
@@ -48,6 +66,20 @@ class ContactHelper:
 
     def edit_first_contact(self, features_contact,index):
         self.edit_contact_by_index(0,features_contact)
+
+    def remove_contact_from_group(self,contact_id,group_name):
+        wd = self.app.wd
+        # Переходим на главную
+        self.home_page(wd)
+        # Выбираем нужную группу в фильтре справа
+        select = Select(wd.find_element_by_name("group"))
+        select.select_by_visible_text(group_name)
+        # Отмечаем галочкой контакт по его ID
+        wd.find_element_by_css_selector("input[value='%s']" % contact_id).click()
+        # Нажимаем кнопку удаления из группы
+        wd.find_element_by_name("remove").click()
+        # Возвращаемся на главную страницу
+        self.home_page(wd)
 
     def open_contact_to_edit_by_index(self, index):
         wd = self.app.wd

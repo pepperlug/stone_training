@@ -4,7 +4,6 @@ from model.group import Group
 from model.features_contact import FeaturesContact
 from pymysql.converters import decoders
 class ORMFixture:
-    pass
     db = Database()
 
     class ORMGroup(db.Entity):
@@ -80,12 +79,18 @@ class ORMFixture:
 
     @db_session
     def get_contacts_in_group(self,group):
-        orm_group = list(select(g for g in self.ORMGroup if g.id == group.id))[0]
-        return self.convert_contacts_to_model(list(orm_group.contacts))
+        orm_group = self.ORMGroup[group.id]
+        contacts = select(c for c in self.ORMContact if orm_group in c.groups)[:]
+        return self.convert_contacts_to_model(contacts)
 
     @db_session
     def get_contacts_not_in_group(self, group):
         orm_group = list(select(g for g in ORMFixture.ORMGroup if g.id == group.id))[0]
         return self.convert_contacts_to_model(
             select(c for c in self.ORMContact if orm_group not in c.groups))
+
+    @db_session
+    def get_groups_with_contacts(self):
+        # Выбираем только те группы, у которых есть контакты
+        return self.convert_groups_to_model(select(g for g in self.ORMGroup if count(g.contacts) > 0))
 
