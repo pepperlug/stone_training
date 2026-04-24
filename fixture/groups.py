@@ -70,6 +70,15 @@ class GroupHelper:
         self.return_to_groups()
         self.group_cache = None
 
+    def del_group_by_id(self,id):
+        wd = self.app.wd
+        self.open_groups()
+        self.select_group_by_id(id)
+        wd.find_element_by_name("delete").click()
+        self.return_to_groups()
+        self.group_cache = None
+
+
     def edit_first_group(self, group):
         self.edit_group_by_index(0, group)
 
@@ -84,12 +93,27 @@ class GroupHelper:
         self.return_to_groups()
         self.group_cache = None
 
+    #выбор группы по id
+    def edit_group_by_id(self, id, group):
+        wd = self.app.wd
+        self.open_groups()
+        self.select_group_by_id(id)
+        wd.find_element_by_name("edit").click()
+        self.input_group(group)
+        self.update_group()
+        self.return_to_groups()
+        self.group_cache = None
+
     def select_group(self):
         self.select_group_by_index(0)
 
     def select_group_by_index(self, index):
         wd = self.app.wd
         wd.find_elements_by_name("selected[]")[index].click()
+
+    def select_group_by_id(self, id):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("input[value='%s']" %id).click()
 
     def count_group(self):
         wd = self.app.wd

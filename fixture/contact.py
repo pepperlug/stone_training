@@ -38,6 +38,14 @@ class ContactHelper:
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         self.contacts_cache = None
 
+    def del_contact_by_id(self,id):
+        wd = self.app.wd
+        #переход на форму существующих контактов
+        self.home_page(wd)
+        wd.find_element_by_css_selector("input[value='%s']" % id).click()
+        wd.find_element_by_xpath("//input[@value='Delete']").click()
+        self.contacts_cache = None
+
     def edit_first_contact(self, features_contact,index):
         self.edit_contact_by_index(0,features_contact)
 
@@ -46,9 +54,20 @@ class ContactHelper:
         self.home_page(wd)
         wd.find_elements_by_xpath("//img[@alt='Edit']")[index].click()
 
+    def open_contact_to_edit_by_id(self, id):
+        wd = self.app.wd
+        self.home_page(wd)
+        wd.find_element_by_xpath(f"//a[@href='edit.php?id={id}']").click()
+
     #редактирование первого контакта в списке
     def edit_contact_by_index(self,features_contact,index):
         self.open_contact_to_edit_by_index(index)
+        self.input_features_contact(features_contact)
+        self.update_contact()
+        self.contacts_cache = None
+
+    def edit_contact_by_id(self,features_contact,id):
+        self.open_contact_to_edit_by_id(id)
         self.input_features_contact(features_contact)
         self.update_contact()
         self.contacts_cache = None

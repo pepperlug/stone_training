@@ -70,7 +70,14 @@ class FeaturesContact:
         return ":".join(parts)
 
     def __eq__(self, other):
-        return (self.id is None or other.id is None or self.id == other.id) and self.firstname == other.firstname and self.lastname == other.lastname
+        # Вспомогательная функция для сравнения строк без пробелов
+        def clean(s):
+            return s.strip() if s is not None else ""
+
+        return (self.id is None or other.id is None or self.id == other.id) \
+            and clean(self.firstname) == clean(other.firstname) \
+            and clean(self.lastname) == clean(other.lastname)
+        #return (self.id is None or other.id is None or self.id == other.id) and self.firstname == other.firstname and self.lastname == other.lastname
 
     def id_or_max(self):
         if self.id:
