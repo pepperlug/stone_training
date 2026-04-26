@@ -1,5 +1,30 @@
 from model.group import Group
 from model.features_contact import FeaturesContact
+import re
+
+
+def clear(s):
+    # Удаляем скобки, пробелы и дефисы из строки
+    return re.sub("[() \-\.]", "", s)
+
+def merge_phones_like_on_home_page(features_contact):
+    # Склеиваем все телефоны в строку, как они отображаются на главной странице
+    return "\n".join(filter(lambda x: x != "",
+                            map(lambda x: clear(x),
+                                filter(lambda x: x is not None,
+                                       [features_contact.home,
+                                        features_contact.mobile,
+                                        features_contact.work]))))
+
+def merge_email_like_on_home_page(features_contact):
+    # Склеиваем все е-мейлы в строку, как они отображаются на главной странице
+    return "\n".join(filter(lambda x: x != "",
+                            filter(lambda x: x is not None,
+                                   [features_contact.email,
+                                    features_contact.email2,
+                                    features_contact.email3])))
+
+
 
 #тест для сравнения групп из UI и групп из БД
 def test_group_list(app,db):
@@ -9,9 +34,10 @@ def test_group_list(app,db):
     db_list = map(clean,db.get_group_list())
     assert sorted(ui_list,key=Group.id_or_max) == sorted(db_list,key=Group.id_or_max)
 
+
 #тест для сравнения контактов с главной страницы, из UI, и контактов из БД
 def test_contact_list(app,db):
-    #Если в базе нет контактов, создаем тестовый контакт
+    # Если в базе нет ни одного контакта, создаем тестовый контакт
     if len(db.get_contact_list()) == 0:
         app.contact.add_new_contact(FeaturesContact(
             firstname="Jonny",
@@ -30,22 +56,22 @@ def test_contact_list(app,db):
             bmonth="May",
             byear="283"
         ))
-    # Получаем список контактов из UI
+    # Получаем список контактов из интерфейса
     ui_list = app.contact.get_contacts_list()
-
-    # Функция для очистки данных из БД перед сравнением
+    # Приводим контакты из БД к формату, как они отображаются на главной странице
     def clean(contact):
         return FeaturesContact(
             id=contact.id,
-            firstname=contact.firstname.strip(),
-            lastname=contact.lastname.strip(),
-            address=contact.address.strip(),
-            all_phones_from_page=contact.all_phones_from_page,
-            all_email_from_page=contact.all_email_from_page
+            firstname=contact.firstname.strip() if contact.firstname else "",
+            lastname=contact.lastname.strip() if contact.lastname else "",
+            address=contact.address.strip() if contact.address else "",
+            all_phones_from_page=merge_phones_like_on_home_page(contact),
+            all_email_from_page=merge_email_like_on_home_page(contact)
         )
-    #Получаем список контактов из БД
-    db_list = map(clean, db.get_contact_list())
-    # Сравниваем списки контактов из UI и БД
+    # Получаем список контактов из БД и приводим к списку
+    db_list = list(map(clean, db.get_contact_list()))
+    # Сравниваем список контактов из UI со списком контактов из БД
     assert sorted(ui_list, key=FeaturesContact.id_or_max) == sorted(db_list, key=FeaturesContact.id_or_max)
+
 
 
